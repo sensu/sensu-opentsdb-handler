@@ -204,7 +204,7 @@ func executeHandler(event *corev2.Event) error {
 	defer handlerConfig.conn.Close()
 
 	for _, point := range event.Metrics.Points {
-		fmt.Fprintf(handlerConfig.conn, MetricPointToOpenTSDBString(point, event.Entity.Name))
+		fmt.Fprint(handlerConfig.conn, MetricPointToOpenTSDBString(point, event.Entity.Name))
 
 		// The server responds with something only if there is an error.
 		// This is quite terrible for proper error handling: if we haven't
