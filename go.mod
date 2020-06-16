@@ -4,6 +4,6 @@ go 1.13
 
 require (
 	github.com/avast/retry-go v2.5.0+incompatible
-	github.com/sensu-community/sensu-plugin-sdk v0.6.0
-	github.com/sensu/sensu-go v0.0.0-20200131164840-40b1d5938251
+	github.com/sensu-community/sensu-plugin-sdk v0.7.0
+	github.com/sensu/sensu-go/api/core/v2 v2.0.0
 )
