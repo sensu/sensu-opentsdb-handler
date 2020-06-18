@@ -12,6 +12,7 @@ import (
 	corev2 "github.com/sensu/sensu-go/api/core/v2"
 )
 
+// HandlerConfig is a handler config
 type HandlerConfig struct {
 	sensu.PluginConfig
 
@@ -48,6 +49,7 @@ type HandlerConfig struct {
 	conn net.Conn
 }
 
+// ConfigOptions is the config options
 type ConfigOptions struct {
 	Host             sensu.PluginConfigOption
 	Port             sensu.PluginConfigOption
@@ -202,7 +204,7 @@ func executeHandler(event *corev2.Event) error {
 	defer handlerConfig.conn.Close()
 
 	for _, point := range event.Metrics.Points {
-		fmt.Fprintf(handlerConfig.conn, MetricPointToOpenTSDBString(point, event.Entity.Name))
+		fmt.Fprint(handlerConfig.conn, MetricPointToOpenTSDBString(point, event.Entity.Name))
 
 		// The server responds with something only if there is an error.
 		// This is quite terrible for proper error handling: if we haven't
@@ -225,6 +227,7 @@ func connect() error {
 	}, retry.Attempts(handlerConfig.Retries), retry.Delay(time.Duration(handlerConfig.RetryDelay)*time.Second))
 }
 
+// MetricPointToOpenTSDBString converts a Sensu metric to OpenTSDB line protocol
 func MetricPointToOpenTSDBString(point *corev2.MetricPoint, entityName string) string {
 	var name string
 
@@ -267,7 +270,7 @@ func MetricPointToOpenTSDBString(point *corev2.MetricPoint, entityName string) s
 	return fmt.Sprintf("put %s %v %v %v\n", name, point.Timestamp, point.Value, tags)
 }
 
-// MetricTagSliceToKVString converts a slice of MetricTag into a space separated
+// MetricTagsToKVString converts a slice of MetricTag into a space separated
 // string of key=value
 func MetricTagsToKVString(tags []*corev2.MetricTag) string {
 	ss := []string{}
